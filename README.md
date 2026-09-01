@@ -126,15 +126,14 @@ This significantly reduces the complexity of the problem.
 ## Parameter Optimization
 
 The unknown parameters were estimated using bounded numerical optimization.
-
 The parameter search ranges were:
 
 ```text
 Theta: 0° to 50°
 M: -0.05 to 0.05
 X: 0 to 100
+```
 
----
 
 ## L1 Loss Function
 
