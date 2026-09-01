@@ -1,4 +1,5 @@
 # FLAM Research & Development Assignment
+
 ## Parametric Curve Parameter Estimation
 
 ## Overview
@@ -7,143 +8,126 @@ This project solves the FLAM Research and Development assignment of estimating t
 
 The objective is to determine the three unknown variables:
 
-- \(\theta\) (theta)
-- \(M\)
-- \(X\)
+- $\theta$ (theta)
+- $M$
+- $X$
 
-The solution uses mathematical coordinate transformation, parameter recovery, bounded global optimization, L1 loss minimization, uniformly sampled curve evaluation, and residual analysis.
+The solution uses mathematical coordinate transformation, parameter recovery, bounded optimization, L1 loss minimization, uniformly sampled curve evaluation, and residual analysis.
 
 ---
 
-# Problem Statement
+## Problem Statement
 
 The given parametric curve is:
 
-\[
-x = t\cos(\theta)
-- e^{M|t|}\sin(0.3t)\sin(\theta)
-+ X
-\]
+$$
+x = t\cos(\theta) - e^{M|t|}\sin(0.3t)\sin(\theta) + X
+$$
 
-\[
-y = 42
-+ t\sin(\theta)
-+ e^{M|t|}\sin(0.3t)\cos(\theta)
-\]
+$$
+y = 42 + t\sin(\theta) + e^{M|t|}\sin(0.3t)\cos(\theta)
+$$
 
 The unknown variables are:
 
-\[
+$$
 \theta,\quad M,\quad X
-\]
+$$
 
 The parameter constraints provided in the assignment are:
 
 | Parameter | Range |
 |---|---|
-| \(\theta\) | \(0^\circ < \theta < 50^\circ\) |
-| \(M\) | \(-0.05 < M < 0.05\) |
-| \(X\) | \(0 < X < 100\) |
-| \(t\) | \(6 < t < 60\) |
+| $\theta$ | $0^\circ < \theta < 50^\circ$ |
+| $M$ | $-0.05 < M < 0.05$ |
+| $X$ | $0 < X < 100$ |
+| $t$ | $6 < t < 60$ |
 
-The provided `xy_data.csv` file contains 1500 points lying on the parametric curve.
+The provided `xy_data.csv` file contains **1500 points** lying on the parametric curve.
 
 ---
 
-# Mathematical Simplification
+## Mathematical Simplification
 
 The assignment specifies:
 
-\[
+$$
 6 < t < 60
-\]
+$$
 
-Therefore, \(t\) is always positive. Hence:
+Therefore, $t$ is always positive. Hence:
 
-\[
+$$
 |t| = t
-\]
+$$
 
-The original equations can therefore be written as:
+The original equations can therefore be simplified as:
 
-\[
-x =
-t\cos(\theta)
--
-e^{Mt}\sin(0.3t)\sin(\theta)
-+
-X
-\]
+$$
+x = t\cos(\theta) - e^{Mt}\sin(0.3t)\sin(\theta) + X
+$$
 
-\[
-y =
-42
-+
-t\sin(\theta)
-+
-e^{Mt}\sin(0.3t)\cos(\theta)
-\]
+$$
+y = 42 + t\sin(\theta) + e^{Mt}\sin(0.3t)\cos(\theta)
+$$
+
+This simplification is used throughout the parameter estimation process.
 
 ---
 
-# Mathematical Approach
+## Mathematical Approach
 
-## Coordinate Transformation
+### Coordinate Transformation
 
-The curve consists of two perpendicular components.
+The parametric curve can be interpreted using two perpendicular directions.
 
 The primary direction is:
 
-\[
-(\cos(\theta),\sin(\theta))
-\]
+$$
+(\cos(\theta), \sin(\theta))
+$$
 
 The perpendicular direction is:
 
-\[
-(-\sin(\theta),\cos(\theta))
-\]
+$$
+(-\sin(\theta), \cos(\theta))
+$$
 
-For a candidate set of parameters \(\theta\), \(M\), and \(X\), the parameter \(t\) can be recovered by projecting each data point onto the primary direction:
+For a candidate set of parameters $\theta$, $M$, and $X$, the parameter $t$ can be recovered by projecting each data point onto the primary direction:
 
-\[
-t =
-(x-X)\cos(\theta)
-+
-(y-42)\sin(\theta)
-\]
+$$
+t = (x-X)\cos(\theta) + (y-42)\sin(\theta)
+$$
 
 The perpendicular component is calculated as:
 
-\[
-w =
--(x-X)\sin(\theta)
-+
-(y-42)\cos(\theta)
-\]
+$$
+w = -(x-X)\sin(\theta) + (y-42)\cos(\theta)
+$$
 
 For the correct parameter values, the perpendicular component satisfies:
 
-\[
-w =
-e^{Mt}\sin(0.3t)
-\]
+$$
+w = e^{Mt}\sin(0.3t)
+$$
 
-This mathematical transformation reduces the estimation problem to finding only the three unknown parameters:
+Therefore, the optimization problem becomes finding the values of:
 
-\[
+$$
 \theta,\quad M,\quad X
-\]
+$$
 
-rather than independently estimating a value of \(t\) for every data point.
+rather than independently estimating a separate value of $t$ for every data point.
+
+This significantly reduces the complexity of the problem.
 
 ---
 
-# Parameter Optimization
+## Parameter Optimization
 
-The unknown parameters were estimated using bounded global optimization.
+The unknown parameters were estimated using bounded numerical optimization.
 
-The search ranges were:
+The parameter search ranges were:
 
 ```text
 Theta: 0° to 50°
