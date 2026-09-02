@@ -150,31 +150,3 @@ The parameter search ranges were:
 Theta: 0° to 50°
 M: -0.05 to 0.05
 X: 0 to 100
-
----
-
-## Desmos Visualization
-
-The recovered parametric curve was also visualized using Desmos to verify the final result.
-
-**Desmos Graph Link:**
-
-https://www.desmos.com/calculator/50lpkq9yjq
-
-The graph uses the recovered parameters:
-
-- **Theta (θ) = 30 degrees**
-- **M = 0.03**
-- **X = 55**
-- **Parameter range: 6 < t < 60**
-
-The Desmos visualization provides an additional graphical validation of the recovered parametric curve.
-
----
-
-## Program Output
-
-The program was executed successfully using:
-
-```bash
-python solve.py
