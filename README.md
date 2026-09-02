@@ -4,6 +4,28 @@
 
 ---
 
+# Final Result
+
+The unknown parameters recovered from the provided `xy_data.csv` dataset are:
+
+- **Theta (θ) = 30 degrees**
+- **M = 0.03**
+- **X = 55**
+
+The final uniformly sampled curve evaluation produced a combined L1 distance of:
+
+$$
+\boxed{0.0000874430}
+$$
+
+This extremely small L1 distance demonstrates that the recovered parametric curve is an extremely close match to the provided dataset.
+
+### Desmos Verification
+
+[View the Recovered Parametric Curve in Desmos](https://www.desmos.com/calculator/50lpkq9yjq)
+
+---
+
 ## Overview
 
 This project solves the FLAM Research and Development assignment of estimating the unknown parameters of a parametric curve using the provided `xy_data.csv` dataset.
@@ -169,25 +191,27 @@ The optimization objective is based on minimizing the L1 error between the trans
 For each data point, the recovered parameter is:
 
 $$
-t=(x-X)\cos(\theta)+(y-42)\sin(\theta)
+t = (x-X)\cos(\theta) + (y-42)\sin(\theta)
 $$
 
 The observed perpendicular component is:
 
 $$
-w=-(x-X)\sin(\theta)+(y-42)\cos(\theta)
+w = -(x-X)\sin(\theta) + (y-42)\cos(\theta)
 $$
 
 The predicted perpendicular component is:
 
 $$
-w_{\text{pred}}=e^{Mt}\sin(0.3t)
+w_{\text{pred}} = e^{Mt}\sin(0.3t)
 $$
 
 The L1 loss is calculated as:
 
 $$
-L_1=\frac{1}{N}\sum_{i=1}^{N}
+L_1 =
+\frac{1}{N}
+\sum_{i=1}^{N}
 \left|w_i-w_{\text{pred},i}\right|
 $$
 
