@@ -123,200 +123,58 @@ This significantly reduces the complexity of the problem.
 
 ---
 
+## Approach and Thought Process
+
+The following approach was used to solve the problem:
+
+1. Loaded and inspected the provided `xy_data.csv` dataset containing 1500 coordinate points.
+2. Analyzed the mathematical structure of the parametric equation.
+3. Used the given constraint $6 < t < 60$ to simplify $|t|$ to $t$.
+4. Applied a coordinate transformation to recover the parameter $t$ from each data point.
+5. Calculated the perpendicular component of the data relative to the main direction of the curve.
+6. Constructed an L1 loss function between the transformed data and the predicted curve.
+7. Used bounded numerical optimization to estimate $\theta$, $M$, and $X$ within the specified parameter ranges.
+8. Rounded the optimized values to meaningful final parameter values and validated them again.
+9. Generated uniformly sampled points to compare the predicted curve with the given curve.
+10. Visualized the data, predicted curve, and residual errors to validate the final solution.
+
+---
+
 ## Parameter Optimization
 
 The unknown parameters were estimated using bounded numerical optimization.
+
 The parameter search ranges were:
 
 ```text
 Theta: 0° to 50°
 M: -0.05 to 0.05
 X: 0 to 100
-```
-
-
-## L1 Loss Function
-
-The optimization objective is based on minimizing the L1 error between the transformed data and the predicted curve.
-
-For each data point, the recovered parameter is:
-
-$$
-t=(x-X)\cos(\theta)+(y-42)\sin(\theta)
-$$
-
-The observed perpendicular component is:
-
-$$
-w=-(x-X)\sin(\theta)+(y-42)\cos(\theta)
-$$
-
-The predicted perpendicular component is:
-
-$$
-w_{\text{pred}}=e^{Mt}\sin(0.3t)
-$$
-
-The L1 loss is calculated as:
-
-$$
-L_1=\frac{1}{N}\sum_{i=1}^{N}\left|w_i-w_{\text{pred},i}\right|
-$$
-
-where $N$ is the total number of data points.
-
-The optimization searches for the values of $\theta$, $M$, and $X$ that minimize this loss.
 
 ---
 
-## Optimization Results
+## Desmos Visualization
 
-The numerical optimization produced the following parameter estimates:
+The recovered parametric curve was also visualized using Desmos to verify the final result.
 
-| Parameter | Optimized Value |
-|---|---:|
-| $\theta$ (radians) | 0.5235983044 |
-| $\theta$ (degrees) | 29.999973 |
-| $M$ | 0.0299999971 |
-| $X$ | 54.9999983399 |
+**Desmos Graph Link:**
 
-The final optimization loss was:
+https://www.desmos.com/calculator/50lpkq9yjq
 
-$$
-L_1 = 0.0000025586
-$$
+The graph uses the recovered parameters:
 
-The recovered parameter range was:
+- **Theta (θ) = 30 degrees**
+- **M = 0.03**
+- **X = 55**
+- **Parameter range: 6 < t < 60**
 
-$$
-6.049405 \leq t \leq 59.995171
-$$
-
-This range is consistent with the assignment constraint:
-
-$$
-6<t<60
-$$
+The Desmos visualization provides an additional graphical validation of the recovered parametric curve.
 
 ---
 
-## Validation Using Rounded Parameters
+## Program Output
 
-The optimized values are extremely close to simple numerical values. Therefore, the final parameters were rounded and evaluated again.
+The program was executed successfully using:
 
-### Final Parameter Values
-
-$$
-\theta=30^\circ
-$$
-
-$$
-M=0.03
-$$
-
-$$
-X=55
-$$
-
-The L1 loss using the rounded parameters is:
-
-$$
-L_1=0.0000150483
-$$
-
-The recovered parameter range using the rounded values is:
-
-$$
-6.049404 \leq t \leq 59.995167
-$$
-
-The extremely small loss confirms that the rounded values accurately represent the original parametric curve.
-
----
-
-## Uniformly Sampled Curve L1 Evaluation
-
-The assignment evaluates the similarity between the expected and predicted curves using uniformly sampled points.
-
-A total of **1500 uniformly sampled points** were used for evaluation.
-
-### L1 Distance Results
-
-| Measurement | L1 Distance |
-|---|---:|
-| X-coordinate distance | 0.0000640127 |
-| Y-coordinate distance | 0.0001108733 |
-| **Combined Curve L1 Distance** | **0.0000874430** |
-
-The very small combined L1 distance demonstrates an extremely close match between the predicted curve and the given data.
-
----
-
-## Generated Visualizations
-
-The program automatically generates the following visualizations:
-
-### 1. Given Data
-
-`plots/given_data.png`
-
-This plot visualizes the 1500 points provided in the dataset.
-
-### 2. Predicted Curve vs Actual Data
-
-`plots/predicted_vs_actual.png`
-
-This plot compares the original data points with the curve generated using the recovered parameter values.
-
-The predicted curve closely overlaps with the given data.
-
-### 3. Residual Analysis
-
-`plots/residual_analysis.png`
-
-This visualization shows the remaining differences between the predicted curve and the actual data.
-
-The small residual values further validate the estimated parameters.
-
----
-
-## Final Answer
-
-The recovered unknown parameters are:
-
-$$
-\boxed{\theta=30^\circ}
-$$
-
-$$
-\boxed{M=0.03}
-$$
-
-$$
-\boxed{X=55}
-$$
-
-Therefore:
-
-**Theta (θ) = 30 degrees**
-
-**M = 0.03**
-
-**X = 55**
-
----
-
-## Project Structure
-
-```text
-flam-rd-parametric-curve-analysis/
-│
-├── README.md
-├── requirements.txt
-├── solve.py
-├── xy_data.csv
-│
-└── plots/
-    ├── given_data.png
-    ├── predicted_vs_actual.png
-    └── residual_analysis.png
+```bash
+python solve.py
